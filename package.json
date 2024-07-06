@@ -19,6 +19,7 @@
   "homepage": "https://github.com/incredible-phoenix246/stage2-backend#readme",
   "dependencies": {
     "@types/cors": "^2.8.17",
+    "@types/node-cron": "^3.0.11",
     "@types/uuid": "^10.0.0",
     "@types/validator": "^13.12.0",
     "bcryptjs": "^2.4.3",
@@ -27,6 +28,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "node-cron": "^3.0.3",
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
