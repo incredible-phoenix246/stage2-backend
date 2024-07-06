@@ -5,8 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "test": "jest",
-    "start": "ts-node-dev --respawn --transpile-only ./src/app",
-    "drop-tables": "ts-node ./dropTables.ts"
+    "start": "ts-node-dev --respawn --transpile-only ./src/app"
   },
   "repository": {
     "type": "git",

@@ -12,3 +12,5 @@ import { sequelize } from "./src/models";
     process.exit(1);
   }
 })();
+
+// "drop-tables": "ts-node ./dropTables.ts"
