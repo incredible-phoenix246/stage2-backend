@@ -34,7 +34,7 @@ function keepAlive(url: string) {
 }
 
 cron.schedule("*/5 * * * *", () => {
-  keepAlive("https://mail-service-1omd.onrender.com");
+  keepAlive("https://stage2-backend1.onrender.com/");
   console.log("pinging the server every minute");
 });
 
