@@ -105,10 +105,10 @@ export class OrganisationController {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
-        status: "Bad request",
-        message: "Client error",
-        statusCode: 400,
+      return res.status(404).json({
+        status: "Not Found",
+        message: "Organisation not found",
+        statusCode: 404,
       });
     }
   }

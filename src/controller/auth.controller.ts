@@ -18,10 +18,10 @@ export class AuthController {
 
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
-        return res.status(400).json({
+        return res.status(422).json({
           status: "Bad request",
           message: "User already exists",
-          statusCode: 400,
+          statusCode: 422,
         });
       }
 
@@ -67,6 +67,7 @@ export class AuthController {
             lastName: user.lastName,
             email: user.email,
             phone: user.phone,
+            organisation: organisation,
           },
         },
       });

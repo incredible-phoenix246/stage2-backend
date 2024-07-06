@@ -4,7 +4,7 @@
   "description": "User Authentication & Organisation",
   "main": "src/app.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "start": "ts-node-dev --respawn --transpile-only ./src/app"
   },
   "repository": {
