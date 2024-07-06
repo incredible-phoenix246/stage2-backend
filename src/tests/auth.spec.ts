@@ -1,55 +1,90 @@
-import request from "supertest";
 import { app } from "../app";
-import { sequelize } from "../models";
+import { User } from "../models/user.model";
+import request from "supertest";
 
-beforeAll(async () => {
-  await sequelize.sync({ force: true });
-});
+let accessToken: string;
 
-describe("Auth Endpoints", () => {
-  it("should register user successfully with default organisation", async () => {
-    const res = await request(app).post("/auth/register").send({
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      password: "password123",
-      phone: "1234567890",
+describe("Authentication Endpoints", () => {
+  beforeAll(async () => {
+    // Create a user for testing
+    await User.create({
+      firstName: "Test",
+      lastName: "User",
+      email: "testuser@example.com",
+      password: "password",
+      phone: "070123456789",
     });
-
-    expect(res.status).toBe(201);
-    expect(res.body.data.user.firstName).toBe("John");
-    expect(res.body.data.accessToken).toBeDefined();
   });
 
-  it("should log the user in successfully", async () => {
-    const res = await request(app).post("/auth/login").send({
-      email: "john.doe@example.com",
-      password: "password123",
-    });
+  it("should register a new user", async () => {
+    const newUser = {
+      firstName: "New",
+      lastName: "User",
+      email: "newuser@example.com",
+      password: "newpassword",
+      phone: "9876543210",
+    };
 
-    expect(res.status).toBe(200);
-    expect(res.body.data.accessToken).toBeDefined();
+    const response = await request(app)
+      .post("/auth/register")
+      .send(newUser)
+      .expect(201);
+
+    expect(response.body.status).toBe("success");
+    expect(response.body.data.accessToken).toBeDefined();
+    expect(response.body.data.user.email).toBe(newUser.email);
   });
 
-  it("should fail if required fields are missing", async () => {
-    const res = await request(app).post("/auth/register").send({
-      lastName: "Doe",
-      email: "jane.doe@example.com",
+  it("should not register a user with duplicate email", async () => {
+    const duplicateUser = {
+      firstName: "Duplicate",
+      lastName: "User",
+      email: "newuser@example.com",
       password: "password123",
-    });
+      phone: "5555555555",
+    };
 
-    expect(res.status).toBe(422);
+    const response = await request(app)
+      .post("/auth/register")
+      .send(duplicateUser)
+      .expect(400);
+
+    expect(response.body.status).toBe("Bad request");
+    expect(response.body.message).toBe("User already exists");
   });
 
-  it("should fail if there’s duplicate email or userId", async () => {
-    const res = await request(app).post("/auth/register").send({
-      firstName: "Jane",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      password: "password123",
-      phone: "0987654321",
-    });
+  it("should login an existing user", async () => {
+    const loginCredentials = {
+      email: "testuser@example.com",
+      password: "password",
+    };
 
-    expect(res.status).toBe(422);
+    const response = await request(app)
+      .post("/auth/login")
+      .send(loginCredentials)
+      .expect(200);
+
+    expect(response.body.status).toBe("success");
+    expect(response.body.data.accessToken).toBeDefined();
+    expect(response.body.data.user.email).toBe(loginCredentials.email);
+
+    accessToken = response.body.data.accessToken;
+  });
+
+  it("should not login with incorrect password", async () => {
+    const incorrectPassword = {
+      email: "testuser@example.com",
+      password: "wrongpassword",
+    };
+
+    const response = await request(app)
+      .post("/auth/login")
+      .send(incorrectPassword)
+      .expect(401);
+
+    expect(response.body.status).toBe("Bad request");
+    expect(response.body.message).toBe(
+      "Authentication failed: User does not exist"
+    );
   });
 });

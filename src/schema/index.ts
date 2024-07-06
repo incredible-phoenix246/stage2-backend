@@ -25,3 +25,10 @@ export const organisationSchema = z.object({
     message: "description is required and must be at least 8 characters",
   }),
 });
+
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, {
+    message: "password must be at least 8 characters",
+  }),
+});

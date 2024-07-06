@@ -4,7 +4,7 @@
   "description": "User Authentication & Organisation",
   "main": "src/app.ts",
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest",
     "start": "ts-node-dev --respawn --transpile-only ./src/app",
     "drop-tables": "ts-node ./dropTables.ts"
   },

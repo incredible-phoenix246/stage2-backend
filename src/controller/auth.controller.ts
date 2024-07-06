@@ -88,7 +88,7 @@ export class AuthController {
       if (!user) {
         return res.status(401).json({
           status: "Bad request",
-          message: "Authentication failed",
+          message: "Authentication failed: User does not exist",
           statusCode: 401,
         });
       }
@@ -97,7 +97,7 @@ export class AuthController {
       if (!validPassword) {
         return res.status(401).json({
           status: "Bad request",
-          message: "Authentication failed",
+          message: "Authentication failed: User does not exist",
           statusCode: 401,
         });
       }
