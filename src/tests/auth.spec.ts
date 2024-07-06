@@ -1,4 +1,4 @@
-import { app } from "../app";
+import app from "../app";
 import { User } from "../models/user.model";
 import request from "supertest";
 
