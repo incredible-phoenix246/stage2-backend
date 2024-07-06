@@ -2,11 +2,13 @@ import { Sequelize } from "sequelize-typescript";
 import { User } from "./user.model";
 import { Organisation } from "./organisation.model";
 import { UserOrganisation } from "./userOrganisation.model";
+import * as pg from "pg";
 import dotenv from "dotenv";
 dotenv.config();
 
 const sequelize = new Sequelize({
   dialect: "postgres",
+  dialectModule: pg,
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   username: process.env.DB_USER,
