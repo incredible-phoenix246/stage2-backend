@@ -23,21 +23,6 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-function keepAlive(url: string) {
-  https
-    .get(url, (res) => {
-      console.log(`Status: ${res.statusCode}`);
-    })
-    .on("error", (error) => {
-      console.error(`Error: ${error.message}`);
-    });
-}
-
-cron.schedule("*/5 * * * *", () => {
-  keepAlive("https://stage2-backend1.onrender.com/");
-  console.log("pinging the server every minute");
-});
-
 sequelize
   .sync({ force: false })
   .then(() => {
