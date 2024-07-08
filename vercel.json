@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "next build",
+  "buildCommand": "npm run start",
   "builds": [
     {
       "src": "src/app.ts",
